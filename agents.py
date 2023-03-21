@@ -124,7 +124,7 @@ class ApproximateQAgent(QLearningAgent):
         features = self.featExtractor(state, action)
         result = 0
         for feature in features:
-            result += self.get_weight[feature] * features[feature]
+            result += self.get_weight(feature) * features[feature]
         return result
 
     def update(self, state, action, next_state, reward):
@@ -135,7 +135,10 @@ class ApproximateQAgent(QLearningAgent):
         features = self.featExtractor(state, action)
         correction = reward + self.discount*self.get_value(next_state) - self.get_q_value(state, action)
         for feature in features:
-            self.weights[feature] += self.alpha * correction * features[feature]
+            if feature in self.weights:
+                self.weights[feature] += self.alpha * correction * features[feature]
+            else:
+                self.weights[feature] = self.alpha * correction * features[feature]
 
 
 # 6. Feedback
