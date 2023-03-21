@@ -51,7 +51,11 @@ class QLearningAgent:
                         if self.get_q_value(state, action) == best_value]
     
         if not len(best_actions): return None
-        else: return random.choice(best_actions)
+        else: 
+            #print("before", best_actions)
+            r = random.choice(best_actions)
+            #print(state, r)
+            return r 
 
     def update(self, state, action, next_state, reward):
         """Update Q-values using running average.
@@ -75,12 +79,12 @@ class QLearningAgent:
         """
         legal_actions = self.game.get_actions(state)
         action = None
-        
+        #print("get_action for", state, "legal_actions", legal_actions)
         if random.random() < self.epsilon:
-            action = random.choice(legal_actions)
+            action = random.choice(list(legal_actions))
         else:
             action = self.get_best_policy(state)
-
+        #print("action is ", action)
         return action
 
 
