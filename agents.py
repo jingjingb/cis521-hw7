@@ -105,27 +105,35 @@ class ApproximateQAgent(QLearningAgent):
         Initialize weights table."""
 
         super().__init__(*args)
-        ...  # TODO
+        self.featExtractor = extractor
+        self.weights = {}
 
     def get_weight(self, feature):
         """Get weight of a feature.
         Never seen feature should have a weight of 0.
         """
-        return 0  # TODO
+        return self.weights
 
     def get_q_value(self, state, action):
         """Compute Q value based on the dot product
         of feature components and weights.
         Q(s,a) = w_1 * f_1(s,a) + w_2 * f_2(s,a) + ... + w_n * f_n(s,a)
         """
-        return 0  # TODO
+        features = self.featExtractor(state, action)
+        result = 0
+        for feature in features:
+            result += self.weights[feature] * features[feature]
+        return result
 
     def update(self, state, action, next_state, reward):
         """Update weights using least-squares approximation.
         Δ = R + γ V(s') - Q(s,a)
         Then update weights: w_i = w_i + α * Δ * f_i(s, a)
         """
-        ...  # TODO
+        features = self.featExtractor(state, action)
+        correction = reward + self.discount*self.get_value(next_state) - self.get_q_value(state, action)
+        for feature in features:
+            self.weights[feature] += self.alpha * correction * features[feature]
 
 
 # 6. Feedback
