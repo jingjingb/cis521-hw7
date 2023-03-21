@@ -112,7 +112,9 @@ class ApproximateQAgent(QLearningAgent):
         """Get weight of a feature.
         Never seen feature should have a weight of 0.
         """
-        return self.weights
+        if feature in self.weights:
+            return self.weights[feature]
+        return 0
 
     def get_q_value(self, state, action):
         """Compute Q value based on the dot product
@@ -122,7 +124,7 @@ class ApproximateQAgent(QLearningAgent):
         features = self.featExtractor(state, action)
         result = 0
         for feature in features:
-            result += self.weights[feature] * features[feature]
+            result += self.get_weight[feature] * features[feature]
         return result
 
     def update(self, state, action, next_state, reward):
