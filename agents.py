@@ -88,7 +88,7 @@ class QLearningAgent:
 def question3():
     epsilon = ...
     learning_rate = ...
-    return epsilon, learning_rate
+    return 'NOT POSSIBLE'
     # If not possible, return 'NOT POSSIBLE'
 
 
