@@ -16,9 +16,6 @@ class QLearningAgent:
         self.alpha = learning_rate
         self.epsilon = explore_prob
         self.qvalues = {}
-        for state in self.game.states:
-            for action in self.game.get_actions(state):
-                self.qvalues[(state, action)] = 0
 
     def get_q_value(self, state, action):
         """Retrieve Q-value from Q-table.
