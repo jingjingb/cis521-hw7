@@ -146,13 +146,9 @@ class ApproximateQAgent(QLearningAgent):
 feedback_question_1 = 0
 
 feedback_question_2 = """
-Type your response here.
-Your response may span multiple lines.
-Do not include these instructions in your response.
+to jump out of MDP and think in RL way
 """
 
 feedback_question_3 = """
-Type your response here.
-Your response may span multiple lines.
-Do not include these instructions in your response.
+UI design, this is easy to understand
 """
