@@ -21,8 +21,8 @@ class QLearningAgent:
         """Retrieve Q-value from Q-table.
         For an never seen (s,a) pair, the Q-value is by default 0.
         """
-        if (state,action) in self.qvalues:
-            return self.qvalues[(state,action)]
+        if (state, action) in self.qvalues:
+            return self.qvalues[(state, action)]
         else:
             return 0.0
 
@@ -33,8 +33,10 @@ class QLearningAgent:
         """Compute state value from Q-values using Bellman Equation.
         V(s) = max_a Q(s,a)
         """
-        qvalues = [self.get_q_value(state, action) for action in self.game.get_actions(state)]
-        if not len(qvalues): return 0.0
+        qvalues = [self.get_q_value(state, action) 
+                   for action in self.game.get_actions(state)]
+        if not len(qvalues):
+            return 0.0
         return max(qvalues)
 
     def get_best_policy(self, state):
@@ -47,15 +49,14 @@ class QLearningAgent:
         """
         import random
         best_value = self.get_value(state)
-        best_actions = [action for action in self.game.get_actions(state) \
+        best_actions = [action for action in self.game.get_actions(state)
                         if self.get_q_value(state, action) == best_value]
-    
-        if not len(best_actions): return None
-        else: 
-            #print("before", best_actions)
+
+        if not len(best_actions): 
+            return None
+        else:
             r = random.choice(best_actions)
-            #print(state, r)
-            return r 
+            return r
 
     def update(self, state, action, next_state, reward):
         """Update Q-values using running average.
@@ -66,7 +67,8 @@ class QLearningAgent:
         """
         qvalue = self.get_q_value(state, action)
         next_value = self.get_value(next_state)
-        new_value = (1-self.alpha) * qvalue + self.alpha * (reward + self.discount * next_value)
+        new_value = (1-self.alpha) * qvalue + \
+            self.alpha * (reward + self.discount * next_value)
         self.set_q_value(state, action, new_value)
 
     # 2. Epsilon Greedy
@@ -79,12 +81,10 @@ class QLearningAgent:
         """
         legal_actions = self.game.get_actions(state)
         action = None
-        #print("get_action for", state, "legal_actions", legal_actions)
         if random.random() < self.epsilon:
             action = random.choice(list(legal_actions))
         else:
             action = self.get_best_policy(state)
-        #print("action is ", action)
         return action
 
 
@@ -133,17 +133,20 @@ class ApproximateQAgent(QLearningAgent):
         Then update weights: w_i = w_i + α * Δ * f_i(s, a)
         """
         features = self.featExtractor(state, action)
-        correction = reward + self.discount*self.get_value(next_state) - self.get_q_value(state, action)
+        correction = reward + self.discount*self.get_value(next_state) \
+              - self.get_q_value(state, action)
         for feature in features:
             if feature in self.weights:
-                self.weights[feature] += self.alpha * correction * features[feature]
+                self.weights[feature] += \
+                    self.alpha * correction * features[feature]
             else:
-                self.weights[feature] = self.alpha * correction * features[feature]
+                self.weights[feature] = \
+                self.alpha * correction * features[feature]
 
 
 # 6. Feedback
 # Just an approximation is fine.
-feedback_question_1 = 0
+feedback_question_1 = 4
 
 feedback_question_2 = """
 to jump out of MDP and think in RL way
