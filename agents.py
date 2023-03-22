@@ -33,7 +33,7 @@ class QLearningAgent:
         """Compute state value from Q-values using Bellman Equation.
         V(s) = max_a Q(s,a)
         """
-        qvalues = [self.get_q_value(state, action) 
+        qvalues = [self.get_q_value(state, action)
                    for action in self.game.get_actions(state)]
         if not len(qvalues):
             return 0.0
@@ -52,7 +52,7 @@ class QLearningAgent:
         best_actions = [action for action in self.game.get_actions(state)
                         if self.get_q_value(state, action) == best_value]
 
-        if not len(best_actions): 
+        if not len(best_actions):
             return None
         else:
             r = random.choice(best_actions)
@@ -134,14 +134,14 @@ class ApproximateQAgent(QLearningAgent):
         """
         features = self.featExtractor(state, action)
         correction = reward + self.discount*self.get_value(next_state) \
-              - self.get_q_value(state, action)
+            - self.get_q_value(state, action)
         for feature in features:
             if feature in self.weights:
                 self.weights[feature] += \
                     self.alpha * correction * features[feature]
             else:
                 self.weights[feature] = \
-                self.alpha * correction * features[feature]
+                    self.alpha * correction * features[feature]
 
 
 # 6. Feedback
